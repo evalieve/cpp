@@ -207,14 +207,8 @@ Fixed	Fixed::operator*(const Fixed& other) const {
  * @brief Arithmetic operator: Divides this Fixed object by another Fixed object.
  * @param other Fixed object to divide by.
  * @return A new Fixed object representing the quotient.
- * 
- * Checks for division by zero and handles it by returning 0 and outputting an error message.
  */
 Fixed	Fixed::operator/(const Fixed& other) const {
-	if (other._fixedPointNumber == 0) {
-		std::cout << "Error: Division by zero" << std::endl;
-		return Fixed(0);
-	}
 	return (Fixed(this->toFloat() / other.toFloat()));
 }
 
