@@ -3,6 +3,13 @@
 #include "FragTrap.hpp"
 
 int main(void) {
+	ClapTrap* obj1 = new ScavTrap("scavverd");
+	ClapTrap* obj2 = new FragTrap("Flapperd");
+	delete obj1;
+	delete obj2;
+
+	std::cout << std::endl;
+
     ClapTrap Clap("Clap");
     ClapTrap Trap("Trap");
     ClapTrap copyTrap;

@@ -2,7 +2,12 @@
 #include "ScavTrap.hpp"
 
 int main(void) {
-    ClapTrap Clap("Clap");
+	ClapTrap* obj = new ScavTrap("scavverd");
+	delete obj;
+	
+	std::cout << std::endl;
+
+	ClapTrap Clap("Clap");
     ClapTrap Trap("Trap");
     ClapTrap copyTrap;
 

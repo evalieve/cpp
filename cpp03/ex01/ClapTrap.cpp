@@ -5,7 +5,7 @@ ClapTrap::ClapTrap() : _name("DefaultClap"), _HP(10), _EP(10), _AD(0) {
 	std::cout << "ClapTrap named " << BLU << this->_name << NC << " called the default constructor" << std::endl;
 }
 
-ClapTrap::ClapTrap(std::string name) : _name(name), _HP(10), _EP(10), _AD(0) {
+ClapTrap::ClapTrap(const std::string& name) : _name(name), _HP(10), _EP(10), _AD(0) {
 	std::cout << "ClapTrap named " << BLU << this->_name << NC << " called the constructor" << std::endl;
 }
 
@@ -31,7 +31,7 @@ ClapTrap::~ClapTrap() {
 	std::cout << "ClapTrap named " << BLU << this->_name << NC << " called the destructor" << std::endl;
 }
 
-bool ClapTrap::canPerformAction(const std::string action) const {
+bool ClapTrap::canPerformAction(const std::string& action) const {
 	if (this->_EP == 0) {
 		std::cout << BLU << this->_name << MAG << " is too tired to " << action << "!" << NC << std::endl;
 		return false;

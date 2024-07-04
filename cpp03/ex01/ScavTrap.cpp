@@ -8,7 +8,7 @@ ScavTrap::ScavTrap() : ClapTrap() {
     std::cout << "ScavTrap named " << BLU << this->_name << NC << " called the default constructor" << std::endl;
 }
 
-ScavTrap::ScavTrap(std::string name) : ClapTrap(name) {
+ScavTrap::ScavTrap(const std::string& name) : ClapTrap(name) {
 	this->_HP = 100;
     this->_EP = 50;
     this->_AD = 20;

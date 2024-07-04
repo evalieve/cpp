@@ -10,11 +10,11 @@ class ClapTrap {
 		int			_EP;
 		int			_AD;
 		
-		bool canPerformAction(const std::string action) const;
+		bool canPerformAction(const std::string& action) const;
 
 	public:
 		ClapTrap();
-		ClapTrap(std::string name);
+		ClapTrap(const std::string& name);
 		ClapTrap(const ClapTrap& other);
 		ClapTrap& operator=(const ClapTrap& other);
 		~ClapTrap();
