@@ -32,6 +32,6 @@ void Brain::setIdea(const std::string &idea) {
 
 void Brain::printIdeas() {
 	std::cout << "Ideas in Brain:" << std::endl;
-	for (int i = 0; i < _ideaCount; ++i)
-		std::cout << "Idea " << i << ": " << _ideas[i] << std::endl;
+	for (int i = 0; i < this->_ideaCount; ++i)
+		std::cout << "Idea " << i << ": " << this->_ideas[i] << std::endl;
 }

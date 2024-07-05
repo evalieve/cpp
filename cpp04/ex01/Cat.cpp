@@ -2,7 +2,7 @@
 
 Cat::Cat() : _brain(new Brain()) {
 	std::cout << "Cat constructor called" << std::endl;
-	type = "Cat";
+	this->type = "Cat";
 }
 
 Cat::Cat(const Cat& other) : _brain(new Brain(*other._brain)) {
@@ -14,8 +14,8 @@ Cat& Cat::operator=(const Cat& other) {
 	std::cout << "Cat copy assignment operator called" << std::endl;
 	if (this != &other){
 		this->type = other.type;
-		delete _brain;
-		_brain = new Brain(*other._brain);
+		delete this->_brain;
+		this->_brain = new Brain(*other._brain);
 	}
 
 	return *this;
@@ -23,7 +23,7 @@ Cat& Cat::operator=(const Cat& other) {
 
 Cat::~Cat() {
 	std::cout << "Cat destructor called" << std::endl;
-	delete _brain;
+	delete this->_brain;
 }
 
 void Cat::makeSound() const {
@@ -31,9 +31,9 @@ void Cat::makeSound() const {
 }
 
 void Cat::setIdea(const std::string& idea) {
-	_brain->setIdea(idea);
+	this->_brain->setIdea(idea);
 }
 
 void Cat::printIdeas() const {
-	_brain->printIdeas();
+	this->_brain->printIdeas();
 }

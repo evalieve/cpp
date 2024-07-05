@@ -25,6 +25,17 @@ int main() {
     dog1.setIdea("Bark at strangers");
     dog1.setIdea("Dig a hole");
 
+	Dog dog3;
+
+	dog3 = dog1;
+	dog3.setIdea("Sleeping");
+	std::cout << std::endl;
+	dog3.printIdeas();
+
+	std::cout << std::endl;
+	dog1.printIdeas();
+	std::cout << std::endl;
+
     Dog dog2 = dog1; // Copy constructor
     std::cout << std::endl;
     dog2.printIdeas(); // Should print "Chase the mailman", "Bark at strangers", "Dig a hole"
