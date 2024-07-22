@@ -25,40 +25,6 @@ ScalarConverter::~ScalarConverter() {
 }
 
 
-void convertFloat(float value) {
-	if (value < 0 || value > 255)
-		std::cout << "Char: Impossible" << std::endl;
-	else if (!std::isprint(static_cast<unsigned char>(value)))
-        std::cout << "Char: Non displayable" << std::endl;
-    else
-        std::cout << "Char: '" << static_cast<char>(value) << '\'' << std::endl;
-    if (value > std::numeric_limits<int>::max() || value < std::numeric_limits<int>::min())
-        std::cout << "int: impossible\n";
-    else
-        std::cout << "int: " << static_cast<int>(value) << std::endl;
-    std::cout << "float: " << value << 'f' << std::endl;
-    std::cout << "double: " << static_cast<double>(value) << std::endl;
-}
-
-void convertDouble(double value) {
-	if (value < 0 || value > 255)
-		std::cout << "Char: Impossible" << std::endl;
-	else if (!std::isprint(static_cast<unsigned char>(value)))
-        std::cout << "Char: Non displayable" << std::endl;
-    else
-        std::cout << "Char: '" << static_cast<char>(value) << '\'' << std::endl;
-    if (value > std::numeric_limits<int>::max() || value < std::numeric_limits<int>::min())
-        std::cout << "int: impossible\n";
-    else
-        std::cout << "int: " << static_cast<int>(value) << std::endl;
-    if (value > std::numeric_limits<float>::max() || value < std::numeric_limits<float>::lowest())
-        std::cout << "float: impossible\n";
-    else {
-        std::cout << "float: " << static_cast<float>(value) << 'f' << std::endl;
-    }
-    std::cout << "double: " << value << std::endl;
-}
-
 void printImpossible () {
 	std::cout << "Char: Impossible" << std::endl;
 	std::cout << "Int: Impossible" << std::endl;
@@ -67,45 +33,61 @@ void printImpossible () {
 
 }
 
-void convertInt(const std::string& value) {
-    long long num = 0;
-
-    try {
-        num = std::stoll(value);
-
-        if (num > std::numeric_limits<int>::max() || num < std::numeric_limits<int>::min()) {
-			printImpossible();
-            return;
-        }
-    } catch (const std::exception& e) {
-        printImpossible();
-        return;
-    }
-
-    int intValue = static_cast<int>(num);
-
-    if (intValue < 0 || intValue > 255) {
-        std::cout << "Char: Impossible" << std::endl;
-    } else if (!std::isprint(static_cast<unsigned char>(intValue))) {
-        std::cout << "Char: Non displayable" << std::endl;
-    } else {
-        std::cout << "Char: '" << static_cast<char>(intValue) << '\'' << std::endl;
-    }
-
-    std::cout << "Int: " << intValue << std::endl;
-    // std::cout << std::fixed << std::setprecision(1);
-    std::cout << "Float: " << static_cast<float>(intValue) << 'f' << std::endl;
-    std::cout << "Double: " << static_cast<double>(intValue) << std::endl;
+template <typename T>
+void printFloat (T value, t_type type) {
+	if (type == FLOAT)
+		std::cout << "Float: " << value;
+	else
+		std::cout << "Float: " << static_cast<float>(value);
+	if (value - static_cast<int>(value) == 0)
+		std::cout << ".0";
+	std::cout << 'f' << std::endl;
 }
 
-void convertChar(char c) {
-	if (!std::isprint(c))
-        std::cout << "Char: Non displayable" << std::endl;
-    else
-        std::cout << "Char: '" << c << '\'' << std::endl;
-	std::cout << "Int: " << static_cast<int>(c) << std::endl;
-	std::cout << "Float: " << static_cast<double>(c) << 'f' << std::endl;
-	std::cout << "Double: " <<  static_cast<float>(c) << std::endl;
+template <typename T>
+void printDouble (T value, t_type type) {
+	if (type == DOUBLE)
+		std::cout << "Double: " << value;
+	else
+		std::cout << "Double: " << static_cast<double>(value);
+	if (value - static_cast<int>(value) == 0)
+		std::cout << ".0";
+	std::cout << std::endl;
+}
+
+template <typename T>
+void printInt (T value, t_type type) {
+	if (type == INT)
+		std::cout << "Int: " << value << std::endl;
+	else if (value > std::numeric_limits<int>::max() || value < std::numeric_limits<int>::min())
+		std::cout << "Int: impossible" << std::endl;
+	else
+		std::cout << "Int: " << static_cast<int>(value) << std::endl;
+}
+
+template <typename T>
+void printChar (T value, t_type type) {
+	if (value < 0 || value > 255)
+		std::cout << "Char: Impossible" << std::endl;
+	else if (!std::isprint(static_cast<unsigned char>(value)))
+		std::cout << "Char: Non displayable" << std::endl;
+	else if (type == CHAR)
+		std::cout << "Char: '" << value << '\'' << std::endl;
+	else
+		std::cout << "Char: '" << static_cast<char>(value) << '\'' << std::endl;
+}
+
+template <typename T>
+void convertType(T value, t_type type) {
+	void (*print[4])(T value, t_type type) = {
+		&printChar,
+		&printInt,
+		&printFloat,
+		&printDouble
+	};
+
+	for (int i = 0; i < 4; i++)
+		print[i](value, type);
 }
 
 t_type getType(const std::string& literal) {
@@ -146,23 +128,23 @@ t_type getType(const std::string& literal) {
 }
 
 void handleSpecialCases(const std::string& literal) {
-    if (literal == "nan" || literal == "nanf") {
-        std::cout << "char: impossible\n";
-        std::cout << "int: impossible\n";
-        std::cout << "float: nanf\n";
-        std::cout << "double: nan\n";
-    } else if (literal == "+inf" || literal == "+inff" || literal == "inf" || literal == "inff") {
-        std::cout << "char: impossible\n";
-        std::cout << "int: impossible\n";
-        std::cout << "float: +inff\n";
-        std::cout << "double: +inf\n";
-    } else if (literal == "-inf" || literal == "-inff") {
-        std::cout << "char: impossible\n";
-        std::cout << "int: impossible\n";
-        std::cout << "float: -inff\n";
-        std::cout << "double: -inf\n";
-    } else {
-        std::cout << "Unknown literal type\n";
+	if (literal == "+inf" || literal == "+inff") {
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
+        std::cout << "float: +inff" << std::endl;
+        std::cout << "double: +inf" << std::endl;
+    } 
+	else if (literal == "-inf" || literal == "-inff") {
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
+        std::cout << "float: -inff" << std::endl;
+        std::cout << "double: -inf" << std::endl;
+    } 
+	else {
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
+        std::cout << "float: nanf" << std::endl;
+        std::cout << "double: nan" << std::endl;
     }
 }
 
@@ -175,23 +157,35 @@ void ScalarConverter::convert(const std::string &literal) {
         handleSpecialCases(literal);
         return ;
     }
-
+	
 	t_type type = getType(literal);
 	switch (type) {
 		case CHAR:
-			convertChar(literal[0]);
+			convertType(literal[0], type);
 			break ;
 
 		case INT:
-			convertInt(literal);
-			break ;
-
-		case DOUBLE:
-			convertDouble(std::stod(literal));
+			try {
+				convertType(std::stoi(literal), type);
+			} catch (std::exception& e) {
+				printImpossible();
+			}
 			break ;
 
 		case FLOAT:
-			convertFloat(std::stof(literal));
+			try {
+				convertType(std::stof(literal), type);
+			} catch (std::exception& e) {
+				printImpossible();
+			}
+			break ;
+
+		case DOUBLE:
+			try {
+				convertType(std::stod(literal), type);
+			} catch (std::exception& e) {
+				printImpossible();
+			}
 			break ;
 		
 		default:
